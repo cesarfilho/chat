@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html ng-app="Chat_Web">
+<head>
+  <title>Chat WEBapp</title>
+<!-- DENTRO PLAY  -->
+<!---->
+  <link href="/assets/stylesheets/bootstrap.css" rel="stylesheet" />
+  <link href="/assets/stylesheets/main.css" rel="stylesheet" />
+  <script src="/assets/javascripts/jquery-1.9.0.min.js"></script>
+  <script src="/assets/javascripts/angular.js"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="/assets/javascripts/google-plus-signin.js"></script>
+  <script src="/assets/javascripts/chat.js"></script>
+
+
+
+<!--
+ FORA PLAY  -->
+<!--
+  <link href="../stylesheets/bootstrap.css" rel="stylesheet" />
+  <script src="../javascripts/angular.js"></script>
+<!--  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="../javascripts/google-plus-signin.js"></script>
+  <script src="../javascripts/chat.js"></script>
+-->
+
+</head>
+<body ng-controller="Chat">
+
+  <div class="container">
+
+<div class="row " style="padding-top:40px;">
+          <h2 class="text-center" class="media-body">Chat WEB</h2>
+  <!-- Add where you want your sign-in button to render -->
+  <div class="row" id="barrainicial" >
+        <google-plus-signin clientid="11662358290-05q53ef8957lngbik68rjqtfv5f85877.apps.googleusercontent.com"></google-plus-signin>
+        <div class="col-sm-5 " class="ng-scope">
+
+          <img class="profile-pic" src="{{pImagem}}" alt=""/>
+            <div class="profile-btn">
+              <div class="pull-left title-user-name">
+                  <a class="btn btn-sm" href="">
+                      {{pNome}}
+                  </a>
+                </br>
+                  <button id="googlesair"  class="btn btn-info"    type="button"  onclick='googleSignOut()' ><i class="icon-bubble"></i> <span>Logoff Google</span></button>
+              </div>
+            </div>
+		    </div>
+        <div class="col-sm-5* ">
+          <button id="bEntrarSala" class="btn btn-success" ng-click="entrar_sala()"><i class="icon-bubble"></i> <span>Entrar na sala</span></button>
+          <button id="bSairSala"   class="btn btn-danger" ng-click="sair_sala()"  ><i class="icon-bubble"></i> <span>Sair da sala</span></button>
+        </div>
+  </div>
+</br></br>
+  <div class="row"  id="chatinfo">
+       <br /><br />
+       <div class="col-md-6">
+         <div id="divmensagens" class="panel-heading">
+             Histórico de Mensagens
+         </div>
+           <div class="tile-title">
+               <div class="chat-body">
+                     <div class="media" data-ng-repeat='item in listamensagens'>
+         							<div class="media-body">
+         								{{item}}
+         							</div>
+         						</div>
+               </div>
+               <div class="panel-footer">
+                   <div class="input-group">
+                     <textarea name="mensagem" class="form-control" placeholder="Digite sua mensagem..." ng-model="mensagem" ng-maxlength="1000"></textarea>
+ 							      <p ng-show="userForm.mensagem.$error.maxlength" class="help-block"><font color="red">Número máximo de até 1000 caracteres.</font></p>
+                       <span class="input-group-btn">
+                           <button class="btn btn-info" ng-click="enviarmsg()" type="button">Enviar</button>
+                       </span>
+                   </div>
+               </div>
+           </div>
+       </div>
+       <div class="col-md-4">
+             <div class="panel panel-primary">
+               <div class="panel-heading">
+                  Usuários Online
+               </div>
+               <div class="panel-body">
+                 <div class="listview narrow">
+          					<div class="media" data-ng-repeat="item in listausuarios | orderBy:'pNome'">
+          						<img class="pull-left" src="{{item.pImagem}}" width="30" alt="">
+          						<div class="media-body p-t-5">{{item.pNome}}{{listausuarios.count}}</div>
+          					</div>
+          				</div>
+                   </div>
+               </div>
+
+       </div>
+   </div>
+    </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

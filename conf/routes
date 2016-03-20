@@ -1,0 +1,20 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+#GET    /                              controllers.Application.index()
+GET     /assets/*file                  controllers.Assets.at(path="/public", file)
+
+#GET    /wsMensagens                   controllers.Chat.wsMensagens()
+
+GET     /chat                          controllers.Assets.at(path="/public", file="html/chat.html")
+
+GET     /usuariosconectados            controllers.Chat.ListaUsuarios()
+
+POST     /transmitir/:msg	   	       controllers.Chat.transmitir(msg: String)  
+
+GET    /wslogin/:id/:nome/:imagem      controllers.Chat.wslogin(id:String,nome:String,imagem:String)
+POST   /logoff/:id/:inatividade  	   controllers.Chat.logoff(id: String, inatividade: Boolean) 
+ 
+

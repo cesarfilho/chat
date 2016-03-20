@@ -1,0 +1,14 @@
+#barrainicial
+{
+    --background-image:  url('http://pixeon.com.br/wp-content/uploads/2015/09/logo-pixeon-alta-1400x434.png') ;
+    --background-image:  url('http://setimobit.com.br/site/wp-content/uploads/2014/09/setimo_bit_banner6.fw_1.png') ;
+    background-image : url("../images/logopixeon.jpg");
+    background-repeat : no-repeat;
+    background-position: right bottom;
+    height: 120px;
+}
+
+#divmensagens{
+  border-radius: 25px;
+  background: #DCDCDC;
+}
