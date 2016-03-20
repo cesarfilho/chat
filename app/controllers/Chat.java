@@ -15,6 +15,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.WebSocket;
+import play.mvc.WebSocket.Out;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -36,8 +37,7 @@ public class Chat extends Controller {
 	
 	public static Result ListaUsuarios() throws JSONException{
 		JSONObject  jLogados = new JSONObject();
-		JSONArray  listaUsuarios = new JSONArray();
-	    Logger.info("Inicio de Tudo " );		
+		JSONArray  listaUsuarios = new JSONArray();		
 	      for (UsuarioChat user : UsuariosConectados.TodosUsuarios()){
 	    	JSONObject jAux = new JSONObject();	    	
 	    	jAux.put("pID",user.getID() );	    	
@@ -54,25 +54,48 @@ public class Chat extends Controller {
 	public static Result logoff(String pID,boolean pbInatividade) throws JSONException {
 		String newmsg = "";
 		JSONObject jAux = new JSONObject();		
+		UsuarioChat delusuario = null;
 		for (UsuarioChat usuario: UsuariosConectados.TodosUsuarios()){
 			if (usuario.getID().equals(pID )){
-				usuario.websocket.close();
 				newmsg =  usuario.getNome();
-				UsuariosConectados.Remover(pID, pbInatividade);	      				
+				delusuario = usuario; 
+	      				
 				if (pbInatividade){
 					newmsg =  newmsg + ": saiu da sala por inatividade";
 				}else
 				{
 					newmsg =  newmsg + ": saiu da sala";
 				}
-		
-		        jAux.put("evt","Chat_SendMsg" );        
-		        jAux.put("msg", newmsg );        	      
+
+				ObjectNode result = Json.newObject();
+				result.put("evt", "Chat_SendMsg");							
+				result.put("msg", newmsg);								
+				for (WebSocket.Out<String> out : connections ) {
+					out.write(result.toString());
+				}							
+
+				ObjectNode result2 = Json.newObject();
+				result2.put("evt", "AtualizarLogados");							
+				result2.put("msg", "usuariosconectados");								
+				for (WebSocket.Out<String> out : connections ) {
+					out.write(result2.toString());
+				}							
+				usuario.websocket.close();		        
             				
 			} 
 		}
-		return ok(jAux.toString());
+		if (!delusuario.equals(null)){
+			UsuariosConectados.Remover(delusuario.getID());			
+		} 
+
+		if (newmsg.equals("")){
+			return ok("vazio");
+		}else{
+			return ok(jAux.toString());			
+		}
+
 	}
+	
 	
 	public static WebSocket<String> wslogin(final String pID,final String pNome,final String pImagem) {		
 		return new WebSocket<String>() {

@@ -15,6 +15,6 @@ GET     /usuariosconectados            controllers.Chat.ListaUsuarios()
 POST     /transmitir/:msg	   	       controllers.Chat.transmitir(msg: String)  
 
 GET    /wslogin/:id/:nome/:imagem      controllers.Chat.wslogin(id:String,nome:String,imagem:String)
-POST   /logoff/:id/:inatividade  	   controllers.Chat.logoff(id: String, inatividade: Boolean) 
+GET   /logoff/:id/:inatividade  	   controllers.Chat.logoff(id: String, inatividade: Boolean) 
  
 

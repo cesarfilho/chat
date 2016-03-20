@@ -1,9 +1,9 @@
 //local
-//var endereco = "http://localhost:9000";
-//var wsendereco = "ws://localhost:9000";
+var endereco = "http://localhost:9000";
+var wsendereco = "ws://localhost:9000";
 //local
-var endereco = "https://calm-wildwood-90566.herokuapp.com";
-var wsendereco = "wss://calm-wildwood-90566.herokuapp.com";
+//var endereco = "https://calm-wildwood-90566.herokuapp.com";
+//var wsendereco = "wss://calm-wildwood-90566.herokuapp.com";
 
 
 
@@ -105,20 +105,20 @@ angular.module('Chat_Web', ['directive.g+signin'])
     {
         bInatividade = false;
         var url = endereco+"/logoff"+"/"+encodeURIComponent($scope.pID)+"/"+bInatividade;
-        $http.post(url).success( function(data, status, headers, config){});
-        websocket.close();
-        AtualizarUsuarios("usuariosconectados");
-        Conectado(false);
+        $http.get(url).success( function(data, status, headers, config){
+          Conectado(false);
+          websocket.close();
+        });
     }
 
     $scope.sair_sala_inatividade = function()
     {
       bInatividade = true;
       var url = endereco+"/logoff"+"/"+encodeURIComponent($scope.pID)+"/"+bInatividade;
-      $http.post(url).success( function(data, status, headers, config){});
-      websocket.close();
-      AtualizarUsuarios("usuariosconectados");
-      Conectado(false);
+      $http.get(url).success( function(data, status, headers, config){
+        Conectado(false);
+        websocket.close();
+      });
     }
 
     $scope.Chat_SendMsg = function(msg)
