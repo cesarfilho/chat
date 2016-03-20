@@ -1,5 +1,11 @@
-var endereco = "http://localhost:9000";
-var wsendereco = "ws://localhost:9000";
+//local
+//var endereco = "http://localhost:9000";
+//var wsendereco = "ws://localhost:9000";
+//local
+var endereco = "https://calm-wildwood-90566.herokuapp.com";
+var wsendereco = "ws://calm-wildwood-90566.herokuapp.com";
+
+
 
 angular.module('Chat_Web', ['directive.g+signin'])
   .controller('Chat', function ($scope,$http) {
