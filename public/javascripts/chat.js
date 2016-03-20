@@ -3,7 +3,7 @@
 //var wsendereco = "ws://localhost:9000";
 //local
 var endereco = "https://calm-wildwood-90566.herokuapp.com";
-var wsendereco = "ws://calm-wildwood-90566.herokuapp.com";
+var wsendereco = "wss://calm-wildwood-90566.herokuapp.com";
 
 
 
