@@ -28,7 +28,9 @@ angular.module('Chat_Web', ['directive.g+signin'])
     $scope.$on('event:google-plus-signin-failure', function (event, authResult) {
       console.log('Não Conectado pelo Google Plus.');
     });
-
+/**
+    Método para atualizar os dados do usuario na página de acordo com o login do google.
+*/
     function Dados(){
       var auth2 = gapi.auth2.getAuthInstance();
       var profile = auth2.currentUser.get().getBasicProfile();
@@ -53,7 +55,9 @@ angular.module('Chat_Web', ['directive.g+signin'])
       focado = true
     };
 
-
+    /*
+      Metodo para deifinir os metodos dos eventos do websocket.
+    */
     $scope.doConnect = function()
   	{
   		websocket.onopen    = function(evt) { $scope.onOpen(evt)    };
@@ -61,18 +65,27 @@ angular.module('Chat_Web', ['directive.g+signin'])
   		websocket.onmessage = function(evt) { $scope.onMessage(evt) };
   	}
 
-
+/*
+    Metodo quando fecha uma conexão com websocket.
+*/
   	$scope.onClose = function(evt)
   	{
   		Conectado(false);
   		$scope.listamensagens  = [];
   	}
+    /*
+        Metodo quando envia ou recebe uma menssagem por uma conexão com websocket.
+    */
 
   	$scope.onMessage = function(evt)
   	{
   		var data = JSON.parse(evt.data);
   		eval('$scope.' + data.evt)(data.msg);
   	}
+
+    /*
+        Metodo envia a mensagem para a conexao do websocket.
+    */
 
     $scope.doSend = function(evt, msg)
   	{
@@ -84,6 +97,10 @@ angular.module('Chat_Web', ['directive.g+signin'])
   		});
   	}
 
+    /*
+        Metodo abre a conexao com o servidor do websocket.
+    */
+
     $scope.onOpen = function(evt)
   	{
   		$scope.doSend("Entrar",$scope.pID);
@@ -91,6 +108,9 @@ angular.module('Chat_Web', ['directive.g+signin'])
 
   	}
 
+    /*
+        Metodo envia a menssagem que o usuario entrou na sala.
+    */
 
     $scope.entrar_sala = function(){
       var wsUri = wsendereco+"/wslogin/"+$scope.pID+"/"+encodeURIComponent($scope.pNome)+"/"+encodeURIComponent($scope.pImagem);
@@ -100,6 +120,9 @@ angular.module('Chat_Web', ['directive.g+signin'])
   		$scope.onOpen();
 	  }
 
+    /*
+        Metodo envia amensagem que o usuario saiu da sala,
+    */
 
     $scope.sair_sala = function()
     {
@@ -111,6 +134,10 @@ angular.module('Chat_Web', ['directive.g+signin'])
         });
     }
 
+    /*
+        Metodo envia mesagem que usuario saiu da sala por inatividade.
+    */
+
     $scope.sair_sala_inatividade = function()
     {
       bInatividade = true;
@@ -121,11 +148,19 @@ angular.module('Chat_Web', ['directive.g+signin'])
       });
     }
 
+    /*
+        Metodo que atualiza as mensagens que são apresebtadas ao usuario.
+    */
+
     $scope.Chat_SendMsg = function(msg)
   	{
       $scope.listamensagens.push(msg);
       $scope.$apply();
   	}
+
+    /*
+        Metodo envia a mensagem do usuario para o websocket.
+    */
 
     $scope.enviarmsg = function()
     {
@@ -140,21 +175,33 @@ angular.module('Chat_Web', ['directive.g+signin'])
      $scope.mensagem ="";
      $scope.apply;
     }
+    /*
+        Metodo envia mensagem de acao para usuario entrar na sala
+    */
 
   	$scope.Entrar = function(msg)
   	{
   		$scope.Chat_SendMsg(msg);
   	}
-
+    /*
+        Metodo envia mensagem de acao para usuario saiu da sala
+    */
   	$scope.Sair = function(msg)
   	{
   		$scope.Chat_SendMsg(msg);
   	}
 
+    /*
+        Metodo atualiza a lista de usuario logados no chat atualmente
+    */
+
     $scope.AtualizarLogados = function(msg)
   	{
         AtualizarUsuarios(msg);
   	}
+    /*
+        Metodo recebe lista de usuarios conectados no chat
+    */
 
     function AtualizarUsuarios(servico) {
        var url = endereco+"/"+servico;
@@ -163,6 +210,9 @@ angular.module('Chat_Web', ['directive.g+signin'])
           $scope.apply;
        });
     }
+    /*
+        Metodo defini se usuario ésta online
+    */
 
     function Conectado(pbConectado)
     {
@@ -171,6 +221,9 @@ angular.module('Chat_Web', ['directive.g+signin'])
       document.getElementById('bSairSala'  ).disabled = !pbConectado;
 
     }
+    /*
+        Metodo verifica se usuario esta inativo ou nao
+    */
 
     function verifica_foco() {
   		timerfoco++;
@@ -200,12 +253,19 @@ angular.module('Chat_Web', ['directive.g+signin'])
         }, 5);
   };
 
+  /*
+      Metodo finaliza login do Google.
+  */
+
   function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
         console.log('User signed out.');
     });
   }
+  /*
+      Metodo remove secao do Google
+  */
 
 function googleSignOut() {
   var auth2 = gapi.auth2.getAuthInstance();

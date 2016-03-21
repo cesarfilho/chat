@@ -21,6 +21,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 
+/**
+ * @author cesar.pamplona
+ *
+ */
 public class Chat extends Controller {
 	
 	private static UsuariosChat UsuariosConectados = new UsuariosChat();
@@ -35,6 +39,11 @@ public class Chat extends Controller {
 		return ok(msg);		
 	}			
 	
+	/**
+	 * Metodo retorna alista de usuarios conectados por REST em formato JSON.
+	 * @return
+	 * @throws JSONException
+	 */
 	public static Result ListaUsuarios() throws JSONException{
 		JSONObject  jLogados = new JSONObject();
 		JSONArray  listaUsuarios = new JSONArray();		
@@ -51,6 +60,13 @@ public class Chat extends Controller {
 	      
 	      return ok(jLogados.toString());    
 	}		
+	/**
+	 * MEtodo que executa o logoof do usuario e envia a mensagem  saiu da sala e para atualizar usuario conectados.
+	 * @param pID
+	 * @param pbInatividade
+	 * @return
+	 * @throws JSONException
+	 */
 	public static Result logoff(String pID,boolean pbInatividade) throws JSONException {
 		String newmsg = "";
 		JSONObject jAux = new JSONObject();		
@@ -97,6 +113,13 @@ public class Chat extends Controller {
 	}
 	
 	
+	/**
+	 * MEtodo para efetuar o login abrindo uma comunicaçao websicket passando as informações do usuario.
+	 * @param pID
+	 * @param pNome
+	 * @param pImagem
+	 * @return
+	 */
 	public static WebSocket<String> wslogin(final String pID,final String pNome,final String pImagem) {		
 		return new WebSocket<String>() {
 				public void onReady(WebSocket.In<String> in,final WebSocket.Out<String> out) {					
